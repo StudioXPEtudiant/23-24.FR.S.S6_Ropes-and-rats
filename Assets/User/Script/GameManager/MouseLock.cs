@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MouseLock : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    [ContextMenu("Lock")]
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+    [ContextMenu("Free")]
+    public void FreeCursor()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+}
