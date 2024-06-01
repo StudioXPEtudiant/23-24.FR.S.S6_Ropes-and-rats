@@ -22,6 +22,10 @@ public class PlayerInputController : MonoBehaviour
 
     private float _pressedTime;
     private bool _mainIsHold;
+    [SerializeField]
+    private float _leftRightAxis;
+    [SerializeField]
+    private float _upDownAxis;
 
 
     // Start is called before the first frame update
@@ -33,6 +37,53 @@ public class PlayerInputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(leftActionKey) && !Input.GetKey(rightActionKey))
+        {
+            _leftRightAxis += -0.01f;
+            _leftRightAxis = Mathf.Clamp(_leftRightAxis, -1, 1);
+        }
+        else if (Input.GetKey(rightActionKey) && !Input.GetKey(leftActionKey))
+        {
+            _leftRightAxis += 0.01f;
+            _leftRightAxis = Mathf.Clamp(_leftRightAxis, -1, 1);
+        }
+        else if (_leftRightAxis > 0.01)
+        {
+            _leftRightAxis += -0.01f;
+        }
+        else if (_leftRightAxis < -0.01)
+        {
+            _leftRightAxis += 0.01f;
+        }
+        else
+        {
+            _leftRightAxis = 0;
+        }
+        
+        if (Input.GetKey(upActionKey) && !Input.GetKey(downActionKey))
+        {
+            _upDownAxis += 0.01f;
+            _upDownAxis = Mathf.Clamp(_upDownAxis, -1, 1);
+        }
+        else if (Input.GetKey(downActionKey) && !Input.GetKey(upActionKey))
+        {
+            _upDownAxis += -0.01f;
+            _upDownAxis = Mathf.Clamp(_upDownAxis, -1, 1);
+        }
+        else if (_upDownAxis > 0.01)
+        {
+            _upDownAxis += -0.01f;
+        }
+        else if (_upDownAxis < -0.01)
+        {
+            _upDownAxis += 0.01f;
+        }
+        else
+        {
+            _upDownAxis = 0;
+        }
+
+
         if (Input.GetKeyDown(mainActionKey))
         {
             _pressedTime = Time.timeSinceLevelLoad;
@@ -60,6 +111,15 @@ public class PlayerInputController : MonoBehaviour
     public bool IsMainPressedTimeAHold()
     {
         return Time.timeSinceLevelLoad - _pressedTime > minimumHeldDuration;
+    }
+
+    public float GetleftRightAxis()
+    {
+        return _leftRightAxis;
+    }
+    public float GetUpDownAxis()
+    {
+        return _upDownAxis;
     }
 
     public KeyCode GetKeyMainAction()
