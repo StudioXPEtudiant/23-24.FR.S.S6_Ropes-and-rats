@@ -22,9 +22,7 @@ public class PlayerInputController : MonoBehaviour
 
     private float _pressedTime;
     private bool _mainIsHold;
-    [SerializeField]
     private float _leftRightAxis;
-    [SerializeField]
     private float _upDownAxis;
 
 
