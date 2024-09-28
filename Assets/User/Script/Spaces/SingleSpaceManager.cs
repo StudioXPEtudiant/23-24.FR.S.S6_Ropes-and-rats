@@ -9,11 +9,13 @@ public class SingleSpaceManager : MonoBehaviour
 {
 
     private ParticleSystem _particleSystem;
+    private SpacesManager _spacesManager;
     
     // Start is called before the first frame update
     void Start()
     {
         _particleSystem = this.GetComponent<ParticleSystem>();
+        _spacesManager = GetComponentInParent<SpacesManager>();
     }
 
     // Update is called once per frame
@@ -26,7 +28,8 @@ public class SingleSpaceManager : MonoBehaviour
     {
         if (other.tag.Contains("Pieces"))
         {
-            _particleSystem.Play();
+            _spacesManager.PiecesOnSpaces(this.gameObject, true);
+            StartParticle();
         }
     }
 
@@ -34,7 +37,18 @@ public class SingleSpaceManager : MonoBehaviour
     {
         if (other.tag.Contains("Pieces"))
         {
-            _particleSystem.Stop();
+            _spacesManager.PiecesOnSpaces(this.gameObject, false);
+            StopParticle();
         }
+    }
+
+    public void StartParticle()
+    {
+        _particleSystem.Play();
+    }
+    
+    public void StopParticle()
+    {
+        _particleSystem.Stop();
     }
 }
