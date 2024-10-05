@@ -10,12 +10,15 @@ public class SingleSpaceManager : MonoBehaviour
 
     private ParticleSystem _particleSystem;
     private SpacesManager _spacesManager;
+
+    private float _piecesDistanceFromCenter;
     
     // Start is called before the first frame update
     void Start()
     {
         _particleSystem = this.GetComponent<ParticleSystem>();
         _spacesManager = GetComponentInParent<SpacesManager>();
+        _piecesDistanceFromCenter = 0f;
     }
 
     // Update is called once per frame
@@ -28,18 +31,35 @@ public class SingleSpaceManager : MonoBehaviour
     {
         if (other.tag.Contains("Pieces"))
         {
+            GetPiecesDistance(other.gameObject);
             _spacesManager.PiecesOnSpaces(this.gameObject, true);
-            StartParticle();
+            //StartParticle();
         }
     }
 
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag.Contains("Pieces"))
+        {
+            GetPiecesDistance(other.gameObject);
+        }
+    }
+    
     private void OnTriggerExit(Collider other)
     {
         if (other.tag.Contains("Pieces"))
         {
             _spacesManager.PiecesOnSpaces(this.gameObject, false);
-            StopParticle();
+            //StopParticle();
         }
+    }
+
+    private void GetPiecesDistance(GameObject gameObject)
+    {
+
+        _piecesDistanceFromCenter = Vector3.Distance(gameObject.transform.position,this.transform.position);
+        //print(_piecesDistanceFromCenter);
     }
 
     public void StartParticle()
@@ -50,5 +70,10 @@ public class SingleSpaceManager : MonoBehaviour
     public void StopParticle()
     {
         _particleSystem.Stop();
+    }
+
+    public float GetPiecesDistenceValue()
+    {
+        return _piecesDistanceFromCenter;
     }
 }
