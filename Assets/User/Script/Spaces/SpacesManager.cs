@@ -7,16 +7,16 @@ using UnityEngine.Serialization;
 
 public class SpacesManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] spaces;
-
-    private Dictionary<GameObject, bool> _spacesStatusDictionary = new Dictionary<GameObject, bool>();
+    [SerializeField] 
+    private GameObject[] spaces;
+    //[SerializeField] 
+    private List<GameObject> _spacesStatusTrue = new List<GameObject>();
+    //[SerializeField] 
+    private GameObject _activeSpaces;
     // Start is called before the first frame update
     void Start()
     {
-        foreach (var gameObject in spaces)
-        {
-            _spacesStatusDictionary.Add(gameObject, false);
-        }
+       
     }
 
     // Update is called once per frame
@@ -25,39 +25,33 @@ public class SpacesManager : MonoBehaviour
         
     }
 
-    private List<GameObject> GiveKeyWhitTrueValue(Dictionary<GameObject, bool> dictionary)
-    {
-        List<GameObject> trueGameObjects = new List<GameObject>();
-        foreach (var KEY in dictionary)
-        {
-            if (KEY.Value.Equals(true))
-            {
-                trueGameObjects.Add(KEY.Key);
-                //print(KEY.Key);
-            }
-        }
-
-        return trueGameObjects;
-    }
-
     public void PiecesOnSpaces(GameObject space, bool space_status)
     {
-        
-        
-        
-        _spacesStatusDictionary[space] = space_status;
-        GameObject[] spacesStatusTrue = GiveKeyWhitTrueValue(_spacesStatusDictionary).ToArray();
+        if (space_status)
+        {
+            if (!_spacesStatusTrue.Contains(space))
+            {
+                _spacesStatusTrue.Add(space);
+            }
+        }
+        else
+        {
+            if (_spacesStatusTrue.Contains(space))
+            {
+                _spacesStatusTrue.Remove(space);
+            }
+        }
         //print(spacesStatusTrue.Length);
-        if (spacesStatusTrue.Length > 1)
+        if (_spacesStatusTrue.ToArray().Length > 1)
         {
             List<float> length = new List<float>();
-            foreach (var gameObject in spacesStatusTrue)
+            foreach (var gameObject in _spacesStatusTrue)
             {
                 length.Add(gameObject.GetComponent<SingleSpaceManager>().GetPiecesDistenceValue());
                 //print(gameObject);
             }
-            GameObject selectedSpace = spacesStatusTrue[length.IndexOf(length.Min())];
-            foreach (var gameObject in spacesStatusTrue)
+            GameObject selectedSpace = _spacesStatusTrue[length.IndexOf(length.Min())];
+            foreach (var gameObject in _spacesStatusTrue)
             {
                 if (gameObject != selectedSpace)
                 {
@@ -68,10 +62,12 @@ public class SpacesManager : MonoBehaviour
             if (space_status)
             {
                 selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
+                _activeSpaces = selectedSpace;
             }
             else
             {
                 selectedSpace.GetComponent<SingleSpaceManager>().StopParticle();
+                _activeSpaces = null;
             }
         }
         else
@@ -79,13 +75,37 @@ public class SpacesManager : MonoBehaviour
             if (space_status)
             {
                 space.GetComponent<SingleSpaceManager>().StartParticle();
+                _activeSpaces = space;
             }
             else
             {
                 space.GetComponent<SingleSpaceManager>().StopParticle();
+                _activeSpaces = null;
             }
             
         }
         
+    }
+
+    public void UpdatePiecesOnSpaces()
+    {
+        List<float> length = new List<float>();
+        foreach (var gameObject in _spacesStatusTrue)
+        {
+            length.Add(gameObject.GetComponent<SingleSpaceManager>().GetPiecesDistenceValue());
+            //print(gameObject);
+        }
+        GameObject selectedSpace = _spacesStatusTrue[length.IndexOf(length.Min())];
+        foreach (var gameObject in _spacesStatusTrue)
+        {
+            if (gameObject != selectedSpace)
+            {
+                gameObject.GetComponent<SingleSpaceManager>().StopParticle();
+            }
+        }
+        
+        selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
+        _activeSpaces = selectedSpace;
+
     }
 }

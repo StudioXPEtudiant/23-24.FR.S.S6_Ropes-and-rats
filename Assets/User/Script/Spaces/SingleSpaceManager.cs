@@ -18,13 +18,6 @@ public class SingleSpaceManager : MonoBehaviour
     {
         _particleSystem = this.GetComponent<ParticleSystem>();
         _spacesManager = GetComponentInParent<SpacesManager>();
-        _piecesDistanceFromCenter = 0f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +35,10 @@ public class SingleSpaceManager : MonoBehaviour
     {
         if (other.tag.Contains("Pieces"))
         {
+            if (_piecesDistanceFromCenter == Vector3.Distance(gameObject.transform.position,
+                    this.transform.position)) return;
             GetPiecesDistance(other.gameObject);
+            _spacesManager.UpdatePiecesOnSpaces();
         }
     }
     
