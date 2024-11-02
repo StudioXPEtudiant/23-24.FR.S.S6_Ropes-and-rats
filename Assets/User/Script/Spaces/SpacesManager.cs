@@ -9,21 +9,10 @@ public class SpacesManager : MonoBehaviour
 {
     [SerializeField] 
     private GameObject[] spaces;
-    //[SerializeField] 
+    [SerializeField] 
     private List<GameObject> _spacesStatusTrue = new List<GameObject>();
-    //[SerializeField] 
+    [SerializeField] 
     private GameObject _activeSpaces;
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void PiecesOnSpaces(GameObject space, bool space_status)
     {
@@ -58,17 +47,14 @@ public class SpacesManager : MonoBehaviour
                     gameObject.GetComponent<SingleSpaceManager>().StopParticle();
                 }
             }
-            
-            if (space_status)
+
+            if (!space_status)
             {
-                selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
-                _activeSpaces = selectedSpace;
+                space.GetComponent<SingleSpaceManager>().StopParticle();
             }
-            else
-            {
-                selectedSpace.GetComponent<SingleSpaceManager>().StopParticle();
-                _activeSpaces = null;
-            }
+            selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
+            _activeSpaces = selectedSpace;
+
         }
         else
         {
@@ -84,7 +70,7 @@ public class SpacesManager : MonoBehaviour
             }
             
         }
-        
+
     }
 
     public void UpdatePiecesOnSpaces()
@@ -100,11 +86,17 @@ public class SpacesManager : MonoBehaviour
         {
             if (gameObject != selectedSpace)
             {
-                gameObject.GetComponent<SingleSpaceManager>().StopParticle();
+                if (!gameObject.GetComponent<ParticleSystem>().isStopped)
+                {
+                    gameObject.GetComponent<SingleSpaceManager>().StopParticle();
+                }
             }
         }
-        
-        selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
+
+        if (!selectedSpace.GetComponent<ParticleSystem>().isPlaying)
+        {
+            selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
+        }
         _activeSpaces = selectedSpace;
 
     }

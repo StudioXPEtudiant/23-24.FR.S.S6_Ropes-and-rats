@@ -12,6 +12,7 @@ public class PickUp : MonoBehaviour
     [SerializeField] private float _pickUpDistence = 0.2f;
     [SerializeField] private float _throwForce = 1.5f;
     [SerializeField] private float _MaxthrowForce = 10f;
+    [SerializeField] private float rotationMultiplier = 1f;
     [SerializeField] private bool _onThrowDoRotate;
     
     private GameObject _playerHand;
@@ -72,26 +73,26 @@ public class PickUp : MonoBehaviour
             if (Input.GetKey(_playerInput.GetKeyUpAltAction()) && !Input.GetKey(_playerInput.GetKeyDownAltAction()))
             {
                 _arms.Rotate(Vector3.right, Space.Self);
-                print("up");
+                //print("up");
             }
             else if (Input.GetKey(_playerInput.GetKeyDownAltAction()) && !Input.GetKey(_playerInput.GetKeyUpAltAction()))
             {
                 
                 _arms.Rotate(Vector3.left, Space.Self);
                 //_rigidbody.AddRelativeTorque(Vector3.right, ForceMode.Force);
-                print("down");
+                //print("down");
             }
             if (Input.GetKey(_playerInput.GetKeyLeftAltAction()) && !Input.GetKey(_playerInput.GetKeyRightAltAction()))
             {
                 _hand.Rotate(Vector3.up, Space.World);
                 //_rigidbody.AddRelativeTorque(Vector3.up, ForceMode.Force);
-                print("left");
+                //print("left");
             }
             else if (Input.GetKey(_playerInput.GetKeyRightAltAction()) && !Input.GetKey(_playerInput.GetKeyLeftAltAction()))
             {
                 _hand.Rotate(Vector3.down, Space.World);
                 //_rigidbody.AddRelativeTorque(Vector3.down, ForceMode.Force);
-                print("right");
+                //print("right");
             }
 
         }
@@ -125,7 +126,7 @@ public class PickUp : MonoBehaviour
         if (_onThrowDoRotate)
         {
             Vector3 torque = new Vector3(_obj_velocity.z, _obj_velocity.y, -_obj_velocity.x);
-            _rigidbody.AddTorque(torque, ForceMode.Impulse);
+            _rigidbody.AddTorque(torque * rotationMultiplier, ForceMode.Impulse);
         }
     }
     

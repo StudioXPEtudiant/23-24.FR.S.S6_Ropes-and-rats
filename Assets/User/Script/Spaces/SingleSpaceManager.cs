@@ -35,8 +35,9 @@ public class SingleSpaceManager : MonoBehaviour
     {
         if (other.tag.Contains("Pieces"))
         {
-            if (_piecesDistanceFromCenter == Vector3.Distance(gameObject.transform.position,
+            if (_piecesDistanceFromCenter == Vector3.Distance(other.transform.position,
                     this.transform.position)) return;
+            //print("trigger");
             GetPiecesDistance(other.gameObject);
             _spacesManager.UpdatePiecesOnSpaces();
         }
@@ -47,7 +48,7 @@ public class SingleSpaceManager : MonoBehaviour
         if (other.tag.Contains("Pieces"))
         {
             _spacesManager.PiecesOnSpaces(this.gameObject, false);
-            //StopParticle();
+            StopParticle();
         }
     }
 
@@ -57,6 +58,7 @@ public class SingleSpaceManager : MonoBehaviour
         _piecesDistanceFromCenter = Vector3.Distance(gameObject.transform.position,this.transform.position);
         //print(_piecesDistanceFromCenter);
     }
+    
 
     public void StartParticle()
     {

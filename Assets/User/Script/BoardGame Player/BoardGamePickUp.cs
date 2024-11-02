@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
 public class BoardGamePickUp : MonoBehaviour
@@ -10,7 +11,8 @@ public class BoardGamePickUp : MonoBehaviour
     [SerializeField] private float objectSpeed = 2;
     [SerializeField] private float pickUpDistence = 0.2f;
     [SerializeField] private float throwForce = 1f;
-    [SerializeField] private float MaxthrowForce = 10f;
+    [FormerlySerializedAs("MaxthrowForce")] [SerializeField] private float maxthrowForce = 10f;
+    [SerializeField] private float rotationMultiplier = 1f;
     [SerializeField] private bool onThrowDoRotate;
     
     private MousePositionAndObjectDetection _mousePosition;
@@ -92,13 +94,13 @@ public class BoardGamePickUp : MonoBehaviour
         //print(_obj_velocity);
         //print(transform.position);
         //print(_lastPosition);
-        _rigidbody.velocity = Vector3.ClampMagnitude(_obj_velocity * (_obj_velocity.magnitude * 100 * throwForce), MaxthrowForce);
+        _rigidbody.velocity = Vector3.ClampMagnitude(_obj_velocity * (_obj_velocity.magnitude * 100 * throwForce), maxthrowForce);
         //print(Vector3.ClampMagnitude(_obj_velocity * (_obj_velocity.magnitude * 100 * throwForce), MaxthrowForce));
         Debug.DrawRay(transform.position, _obj_velocity, Color.green, 3);
         if (onThrowDoRotate)
         {
-            Vector3 test = new Vector3(_obj_velocity.z, _obj_velocity.y, -_obj_velocity.x);
-            _rigidbody.AddTorque(test, ForceMode.Impulse);
+            Vector3 rotationVelocity = new Vector3(_obj_velocity.z, _obj_velocity.y, -_obj_velocity.x);
+            _rigidbody.AddTorque(rotationVelocity * rotationMultiplier, ForceMode.Impulse);
         }
         
     }
