@@ -7,6 +7,7 @@ public class Interactive : MonoBehaviour
 {
     [SerializeField] private UnityEvent eventOnMainActPresse;
     [SerializeField] private UnityEvent eventOnMainActHold;
+    [SerializeField] private UnityEvent eventOnMainActRelease;
 
     public void OnMainActPresse()
     {
@@ -18,5 +19,11 @@ public class Interactive : MonoBehaviour
     {
         //print("interaction Hold On "+ this.transform);
         eventOnMainActHold.Invoke();
+    }
+    
+    public void OnMainActRelease()
+    {
+        //print("interaction Release "+ this.transform);
+        eventOnMainActRelease.Invoke();
     }
 }

@@ -77,6 +77,12 @@ public class DetectAndAct : MonoBehaviour
             _currentGameObject.GetComponent<Interactive>().OnMainActPresse();
             //print("key is Press");
         }
+        else if (Input.GetKeyUp(_playerInputController.GetKeyMainAction()) && _playerInputController.IsMainPressedTimeAHold())
+        {
+            _currentGameObject.GetComponent<Interactive>().OnMainActRelease();
+            //print("key is Release");
+        }
+
     }
 
     private void OnEnable()

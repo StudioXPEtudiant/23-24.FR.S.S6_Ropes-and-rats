@@ -2,17 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class SpacesManager : MonoBehaviour
 {
-    [SerializeField] 
-    private GameObject[] spaces;
-    [SerializeField] 
+    [SerializeField] private Dice_Logic dice;
+    [SerializeField] private GameObject[] spaces;
+    [SerializeField] private Gradient actifeSpacesGradient;
+    [SerializeField] private Gradient targetSpacesGradient;
+    
+    
+    [SerializeField] //SerializeField is for Debug Only
     private List<GameObject> _spacesStatusTrue = new List<GameObject>();
-    [SerializeField] 
+    [SerializeField] //SerializeField is for Debug Only
     private GameObject _activeSpaces;
+
+    private int _currentTargetSpacesPosition;
+    [SerializeField] //SerializeField is for Debug Only
+    private GameObject _targetSpaces;
+
+    private void Start()
+    {
+        UpdateCurrentTargetSpacesPosition(0);
+    }
 
     public void PiecesOnSpaces(GameObject space, bool space_status)
     {
@@ -52,7 +66,7 @@ public class SpacesManager : MonoBehaviour
             {
                 space.GetComponent<SingleSpaceManager>().StopParticle();
             }
-            selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
+            selectedSpace.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
             _activeSpaces = selectedSpace;
 
         }
@@ -60,7 +74,7 @@ public class SpacesManager : MonoBehaviour
         {
             if (space_status)
             {
-                space.GetComponent<SingleSpaceManager>().StartParticle();
+                space.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
                 _activeSpaces = space;
             }
             else
@@ -70,7 +84,13 @@ public class SpacesManager : MonoBehaviour
             }
             
         }
-
+        if (_activeSpaces == _targetSpaces && _activeSpaces != null && _targetSpaces != null)
+        {
+            _targetSpaces.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
+            print("Dice On Target enter");
+            _targetSpaces = null;
+            dice.DiceState(true);
+        }
     }
 
     public void UpdatePiecesOnSpaces()
@@ -95,9 +115,31 @@ public class SpacesManager : MonoBehaviour
 
         if (!selectedSpace.GetComponent<ParticleSystem>().isPlaying)
         {
-            selectedSpace.GetComponent<SingleSpaceManager>().StartParticle();
+            selectedSpace.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
         }
         _activeSpaces = selectedSpace;
+        if (_activeSpaces == _targetSpaces && _activeSpaces != null && _targetSpaces != null)
+        {
+            _targetSpaces.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
+            print("Dice On Target uptade");
+            _targetSpaces = null;
+            dice.DiceState(true);
+        }
+    }
 
+    public void UpdateCurrentTargetSpacesPosition(int movedSpace)
+    {
+        if (_currentTargetSpacesPosition + movedSpace >= spaces.Length)
+        {
+            _currentTargetSpacesPosition = spaces.Length - 1;
+        }
+        else
+        {
+            _currentTargetSpacesPosition += movedSpace;
+        }
+        _targetSpaces = spaces[_currentTargetSpacesPosition];
+        _targetSpaces.GetComponent<SingleSpaceManager>().StartParticle(targetSpacesGradient);
+        print("Target Spaces Is " + _targetSpaces);
+        
     }
 }

@@ -7,8 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(ParticleSystem))]
 public class SingleSpaceManager : MonoBehaviour
 {
-
+    
     private ParticleSystem _particleSystem;
+    private ParticleSystem.MainModule _mainModule;
     private SpacesManager _spacesManager;
 
     private float _piecesDistanceFromCenter;
@@ -60,8 +61,10 @@ public class SingleSpaceManager : MonoBehaviour
     }
     
 
-    public void StartParticle()
+    public void StartParticle(Gradient gradient)
     {
+        var mainGradian = _particleSystem.main;
+        mainGradian.startColor = gradient;
         _particleSystem.Play();
     }
     
