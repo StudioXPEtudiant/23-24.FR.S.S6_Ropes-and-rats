@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(ParticleSystem))]
 public class SingleSpaceManager : MonoBehaviour
 {
+    [SerializeField] public int SpaceModifier = 0;
     
     private ParticleSystem _particleSystem;
     private ParticleSystem.MainModule _mainModule;
