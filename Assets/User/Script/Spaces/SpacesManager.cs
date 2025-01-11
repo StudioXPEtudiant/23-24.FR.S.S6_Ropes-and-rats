@@ -12,19 +12,23 @@ public class SpacesManager : MonoBehaviour
     [SerializeField] private GameObject[] spaces;
     [SerializeField] private Gradient actifeSpacesGradient;
     [SerializeField] private Gradient targetSpacesGradient;
+    [SerializeField] private Gradient currentSpacesGradient;
     
     
     //[SerializeField] //SerializeField is for Debug Only
     private List<GameObject> _spacesStatusTrue = new List<GameObject>();
     //[SerializeField] //SerializeField is for Debug Only
     private GameObject _activeSpaces;
-
-    private int _currentTargetSpacesPosition;
+    //[SerializeField] //SerializeField is for Debug Only
+    private int _currentTargetSpacesPosition = 0;
     //[SerializeField] //SerializeField is for Debug Only
     private GameObject _targetSpaces;
+    //[SerializeField] //SerializeField is for Debug Only
+    private GameObject _currentSpaces;
 
     private void Start()
     {
+        _currentSpaces = spaces[0];
         UpdateCurrentTargetSpacesPosition(0);
     }
 
@@ -58,13 +62,28 @@ public class SpacesManager : MonoBehaviour
             {
                 if (gameObject != selectedSpace)
                 {
-                    gameObject.GetComponent<SingleSpaceManager>().StopParticle();
+                    if (gameObject == _currentSpaces)
+                    {
+                        gameObject.GetComponent<SingleSpaceManager>().StartParticle(currentSpacesGradient);
+                    }
+                    else
+                    {
+                       gameObject.GetComponent<SingleSpaceManager>().StopParticle(); 
+                    }
+                    
                 }
             }
 
             if (!space_status)
             {
-                space.GetComponent<SingleSpaceManager>().StopParticle();
+                if (space == _currentSpaces)
+                {
+                    space.GetComponent<SingleSpaceManager>().StartParticle(currentSpacesGradient);
+                }
+                else
+                {
+                    space.GetComponent<SingleSpaceManager>().StopParticle(); 
+                }
             }
             selectedSpace.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
             _activeSpaces = selectedSpace;
@@ -79,13 +98,22 @@ public class SpacesManager : MonoBehaviour
             }
             else
             {
-                space.GetComponent<SingleSpaceManager>().StopParticle();
+                if (space == _currentSpaces)
+                {
+                    space.GetComponent<SingleSpaceManager>().StartParticle(currentSpacesGradient);
+                }
+                else
+                {
+                    space.GetComponent<SingleSpaceManager>().StopParticle(); 
+                }
                 _activeSpaces = null;
             }
             
         }
         if (_activeSpaces == _targetSpaces && _activeSpaces != null && _targetSpaces != null)
         {
+            _currentSpaces.GetComponent<SingleSpaceManager>().StopParticle();
+            _currentSpaces = _targetSpaces;
             _targetSpaces.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
             //print("Dice On Target enter");
             if (_targetSpaces.GetComponent<SingleSpaceManager>().SpaceModifier == 0)
@@ -114,7 +142,7 @@ public class SpacesManager : MonoBehaviour
         {
             if (gameObject != selectedSpace)
             {
-                if (!gameObject.GetComponent<ParticleSystem>().isStopped)
+                if (!gameObject.GetComponent<ParticleSystem>().isStopped && gameObject != _currentSpaces)
                 {
                     gameObject.GetComponent<SingleSpaceManager>().StopParticle();
                 }
@@ -128,6 +156,8 @@ public class SpacesManager : MonoBehaviour
         _activeSpaces = selectedSpace;
         if (_activeSpaces == _targetSpaces && _activeSpaces != null && _targetSpaces != null)
         {
+            _currentSpaces.GetComponent<SingleSpaceManager>().StopParticle();
+            _currentSpaces = _targetSpaces;
             _targetSpaces.GetComponent<SingleSpaceManager>().StartParticle(actifeSpacesGradient);
             //print("Dice On Target uptade");
             if (_targetSpaces.GetComponent<SingleSpaceManager>().SpaceModifier == 0)

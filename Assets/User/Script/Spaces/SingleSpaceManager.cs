@@ -50,7 +50,7 @@ public class SingleSpaceManager : MonoBehaviour
         if (other.tag.Contains("Pieces"))
         {
             _spacesManager.PiecesOnSpaces(this.gameObject, false);
-            StopParticle();
+            //StopParticle();
         }
     }
 

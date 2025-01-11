@@ -8,19 +8,23 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Rigidbody))]
 public class PickUp : MonoBehaviour
 {
-    [SerializeField] private float _objectSpeed = 2;
-    [SerializeField] private float _pickUpDistence = 0.2f;
-    [SerializeField] private float _throwForce = 1.5f;
-    [SerializeField] private float _MaxthrowForce = 10f;
+    [SerializeField] private float objectSpeed = 2;
+    [FormerlySerializedAs("_pickUpDistence")] [SerializeField] private float lockMagnetudeDistance = 0.2f;
+    [SerializeField] private float throwForce = 1.5f;
+    [SerializeField] private float maxthrowForce = 10f;
     [SerializeField] private float rotationMultiplier = 1f;
-    [SerializeField] private bool _onThrowDoRotate;
+
+    [SerializeField] private float2 minMaxHandDistanceFromPlayer = new float2(0.7f,1.3f);
+
+
+    [FormerlySerializedAs("_onThrowDoRotate")] [SerializeField] private bool onThrowDoRotate;
     
     private GameObject _playerHand;
     private Rigidbody _rigidbody;
     private bool _isHold;
     private bool _wasHold;
     private Vector3 _lastPosition = Vector3.zero;
-    private Vector3 _obj_velocity;
+    private Vector3 _objVelocity;
     private PlayerInputController _playerInput;
     private Transform _hand;
     private Transform _arms;
@@ -58,11 +62,11 @@ public class PickUp : MonoBehaviour
         Vector3 direction = _playerHand.transform.position - transform.position;
         Debug.DrawRay(transform.position, direction, Color.blue);
         
-        if (direction.magnitude > _pickUpDistence)
+        if (direction.magnitude > lockMagnetudeDistance)
         {
             //_rigidbody.constraints = UnityEngine.RigidbodyConstraints.FreezeRotation;
             _rigidbody.useGravity = false;
-            _rigidbody.AddForce(direction * _objectSpeed + direction.normalized);
+            _rigidbody.AddForce(direction * objectSpeed + direction.normalized);
             //_rigidbody.Sleep();
         }
         else
@@ -101,10 +105,10 @@ public class PickUp : MonoBehaviour
         {
             //print(transform.position);
             //print(_lastPosition);
-            _obj_velocity = (transform.position - _lastPosition);
+            _objVelocity = (transform.position - _lastPosition);
             //print(_obj_velocity);
         }
-        Debug.DrawRay(transform.position, _obj_velocity, Color.green);
+        Debug.DrawRay(transform.position, _objVelocity, Color.green);
         _lastPosition = transform.position;
     }
 
@@ -120,12 +124,12 @@ public class PickUp : MonoBehaviour
         //print(_obj_velocity);
         //print(transform.position);
         //print(_lastPosition);
-        _rigidbody.velocity = Vector3.ClampMagnitude(_obj_velocity * (_obj_velocity.magnitude * 100 * _throwForce), _MaxthrowForce);
+        _rigidbody.velocity = Vector3.ClampMagnitude(_objVelocity * (_objVelocity.magnitude * 100 * throwForce), maxthrowForce);
         //print(Vector3.ClampMagnitude(_obj_velocity * (_obj_velocity.magnitude * 100 * _throwForce), _MaxthrowForce));
-        Debug.DrawRay(transform.position, _obj_velocity, Color.green, 3);
-        if (_onThrowDoRotate)
+        Debug.DrawRay(transform.position, _objVelocity, Color.green, 3);
+        if (onThrowDoRotate)
         {
-            Vector3 torque = new Vector3(_obj_velocity.z, _obj_velocity.y, -_obj_velocity.x);
+            Vector3 torque = new Vector3(_objVelocity.z, _objVelocity.y, -_objVelocity.x);
             _rigidbody.AddTorque(torque * rotationMultiplier, ForceMode.Impulse);
         }
     }
