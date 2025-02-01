@@ -1,39 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-// SI C'est les vertices sont trop nombreux, utiliser des point vector 3 placer manuellement.
+// SI les vertices sont trop nombreux, utiliser des point vector 3 a placer manuellement.
+// Systeme vertices a étais abandoner.
 public class Guardian_Raycast : MonoBehaviour
 {
-    [SerializeField] private GameObject[] DetectableObjects;
-    [SerializeField] private MeshFilter TargetTest; // [DEBUG ONLY]
-    // Start is called before the first frame update
-    
+    [FormerlySerializedAs("DetectionPointObjects")] [SerializeField] 
+    [Tooltip("Put the GameObject You want to be detectable" + " [The GameObject Need to have a children name ''DetectionPoint'']")]
+    private GameObject[] DetectableObjects;
+    //[SerializeField] 
+    private MeshFilter TargetTest; // [DEBUG ONLY]
+
     void Start()
     {
         StartCoroutine(CheckDetectableObjectVisibility());
         //StartCoroutine(DebugRaycast());
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     private IEnumerator CheckDetectableObjectVisibility()
     {
-        yield return new WaitForSeconds(1f);
-        foreach (var detectableGameObject in DetectableObjects)
-        {
-            if (detectableGameObject.GetComponent<MeshFilter>().mesh.vertices.Length < 20)
-            {
-                Debug.DrawLine(transform.position, detectableGameObject.transform.position,Color.red,2f);
-            }
-            yield return new WaitForSeconds(1f);
-        }
-        
         yield return new WaitForSeconds(2f);
+        List<Transform> detectionPointPosition = new List<Transform>();
+        foreach (var parentObject in DetectableObjects)
+        {
+            if (parentObject.transform.Find("DetectionPoint"))
+            {
+                Transform detectionPoint = parentObject.transform.Find("DetectionPoint");
+                for (int i = 0; i < detectionPoint.childCount; i++)
+                {
+                    //Debug.Log(detectionPoint.childCount);
+                    detectionPointPosition.Add(detectionPoint.GetChild(i));
+                }
+            }
+            else
+            {
+                Debug.LogError("Object ''" + parentObject + "'' dosent have a child ''DetectionPoint''.");
+            }
+        }
+
+        
+        foreach (var point in detectionPointPosition)
+        {
+            RaycastHit raycastHit;
+            if (Physics.Raycast(transform.position, (point.position - transform.position), out raycastHit))
+            {
+                if (DetectableObjects.Contains(raycastHit.transform.gameObject))
+                {
+                    Debug.DrawLine(transform.position,raycastHit.point,Color.green,2f);
+                }
+                else
+                {
+                    Debug.DrawLine(transform.position,raycastHit.point,Color.red,2f);
+                    Debug.DrawLine(raycastHit.point,point.position,Color.yellow,2f);
+                }
+            }
+        }
         StartCoroutine(CheckDetectableObjectVisibility());
     }
     
