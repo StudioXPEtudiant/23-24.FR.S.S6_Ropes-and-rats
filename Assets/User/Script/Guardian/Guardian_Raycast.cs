@@ -12,17 +12,36 @@ public class Guardian_Raycast : MonoBehaviour
     [FormerlySerializedAs("DetectionPointObjects")] [SerializeField] 
     [Tooltip("Put the GameObject You want to be detectable" + " [The GameObject Need to have a children name ''DetectionPoint'']")]
     private GameObject[] DetectableObjects;
+
+    [SerializeField] private float TimeBetwenCheck = 0.5f;
+
+    [SerializeField] private int MinimumPointNeededForGameOver = 7;
+    
+    private int _numberOfDetectablePoint;
+    
     //[SerializeField] 
     private MeshFilter TargetTest; // [DEBUG ONLY]
 
     void Start()
     {
+        foreach (var parentObject in DetectableObjects)
+        {
+            if (parentObject.transform.Find("DetectionPoint"))
+            {
+                Transform detectionPoint = parentObject.transform.Find("DetectionPoint");
+                _numberOfDetectablePoint += detectionPoint.childCount;
+            }
+            else
+            {
+                Debug.LogError("Object ''" + parentObject + "'' dosent have a child ''DetectionPoint''.");
+            }
+        }
         StartCoroutine(CheckDetectableObjectVisibility());
         //StartCoroutine(DebugRaycast());
     }
     private IEnumerator CheckDetectableObjectVisibility()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(TimeBetwenCheck);
         List<Transform> detectionPointPosition = new List<Transform>();
         foreach (var parentObject in DetectableObjects)
         {
@@ -41,7 +60,7 @@ public class Guardian_Raycast : MonoBehaviour
             }
         }
 
-        
+        int numberOfDetectedPoint = 0;
         foreach (var point in detectionPointPosition)
         {
             RaycastHit raycastHit;
@@ -49,17 +68,33 @@ public class Guardian_Raycast : MonoBehaviour
             {
                 if (DetectableObjects.Contains(raycastHit.transform.gameObject))
                 {
-                    Debug.DrawLine(transform.position,raycastHit.point,Color.green,2f);
+                    Debug.DrawLine(transform.position,raycastHit.point,Color.green,TimeBetwenCheck);
+                    numberOfDetectedPoint += 1;
                 }
                 else
                 {
-                    Debug.DrawLine(transform.position,raycastHit.point,Color.red,2f);
-                    Debug.DrawLine(raycastHit.point,point.position,Color.yellow,2f);
+                    Debug.DrawLine(transform.position,raycastHit.point,Color.red,TimeBetwenCheck);
+                    //Debug.DrawLine(raycastHit.point,point.position,Color.yellow,TimeBetwenCheck);
                 }
             }
         }
+        
+        //Debug.Log(numberOfDetectedPoint + " / " + _numberOfDetectablePoint + " point as been detected.");
+        if (numberOfDetectedPoint >= MinimumPointNeededForGameOver)
+        {
+            //Debug.Log("Guardian See To much point (GameOver)");
+            Debug.DrawLine(transform.position,transform.position + new Vector3(0,3,0),Color.green,TimeBetwenCheck);
+        }
+        else
+        {
+            Debug.DrawLine(transform.position,transform.position + new Vector3(0,3,0),Color.red,TimeBetwenCheck);
+        }
+        
         StartCoroutine(CheckDetectableObjectVisibility());
     }
+
+    
+    
     
     // To Test the raycast system.
     private IEnumerator DebugRaycast() // [DEBUG ONLY].
