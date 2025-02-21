@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -20,6 +21,10 @@ public class PlayerMouvementController : MonoBehaviour
 
     [SerializeField] private float playerCrouchHeight = 1f;
 
+    [FormerlySerializedAs("Inertie")]
+    [Range(0,0.9f)]
+    [SerializeField] private float NoInertie = 0.025f;
+
     private Vector3 _movementX;
     private Vector3 _movementZ;
     private float _cameraY;
@@ -33,6 +38,7 @@ public class PlayerMouvementController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInputController>();
         _playerHeightdifference = (playerHeight - playerCrouchHeight) / 2;
+        _playerInput.noInertie = NoInertie;
     }
 
     // Update is called once per frame
@@ -44,7 +50,9 @@ public class PlayerMouvementController : MonoBehaviour
         Vector3 move = (_movementX + _movementZ);
         _characterController.Move(move * (playerSpeed * Time.deltaTime));
         _characterController.Move(new Vector3(0,-0.005f,0));
-        
+
+
+
 
         float inputX = Input.GetAxis("Mouse X");
         float inputY = Input.GetAxis("Mouse Y");

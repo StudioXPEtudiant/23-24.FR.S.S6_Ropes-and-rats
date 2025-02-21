@@ -24,6 +24,9 @@ public class PlayerInputController : MonoBehaviour
     private bool _mainIsHold;
     private float _leftRightAxis;
     private float _upDownAxis;
+    
+    [FormerlySerializedAs("inertie")] [HideInInspector]
+    public float noInertie = 0.025f;
 
 
     // Start is called before the first frame update
@@ -37,21 +40,29 @@ public class PlayerInputController : MonoBehaviour
     {
         if (Input.GetKey(leftActionKey) && !Input.GetKey(rightActionKey))
         {
-            _leftRightAxis += -0.01f;
+            if (_leftRightAxis > 0.01f)
+            {
+                _leftRightAxis += -_leftRightAxis * noInertie;
+            }
+            _leftRightAxis += -0.01f ;
             _leftRightAxis = Mathf.Clamp(_leftRightAxis, -1, 1);
         }
         else if (Input.GetKey(rightActionKey) && !Input.GetKey(leftActionKey))
         {
+            if (_leftRightAxis < -0.01f)
+            {
+                _leftRightAxis += -_leftRightAxis * noInertie;
+            }
             _leftRightAxis += 0.01f;
             _leftRightAxis = Mathf.Clamp(_leftRightAxis, -1, 1);
         }
         else if (_leftRightAxis > 0.01)
         {
-            _leftRightAxis += -0.01f;
+            _leftRightAxis += -0.01f + -_leftRightAxis * noInertie;
         }
         else if (_leftRightAxis < -0.01)
         {
-            _leftRightAxis += 0.01f;
+            _leftRightAxis += 0.01f + -_leftRightAxis * noInertie;
         }
         else
         {
@@ -60,21 +71,29 @@ public class PlayerInputController : MonoBehaviour
         
         if (Input.GetKey(upActionKey) && !Input.GetKey(downActionKey))
         {
+            if (_upDownAxis < -0.01f)
+            {
+                _upDownAxis += -_upDownAxis * noInertie;
+            }
             _upDownAxis += 0.01f;
             _upDownAxis = Mathf.Clamp(_upDownAxis, -1, 1);
         }
         else if (Input.GetKey(downActionKey) && !Input.GetKey(upActionKey))
         {
+            if (_upDownAxis > 0.01f)
+            {
+                _upDownAxis += -_upDownAxis * noInertie;
+            }
             _upDownAxis += -0.01f;
             _upDownAxis = Mathf.Clamp(_upDownAxis, -1, 1);
         }
         else if (_upDownAxis > 0.01)
         {
-            _upDownAxis += -0.01f;
+            _upDownAxis += -0.01f + -_upDownAxis * noInertie;
         }
         else if (_upDownAxis < -0.01)
         {
-            _upDownAxis += 0.01f;
+            _upDownAxis += 0.01f + -_upDownAxis * noInertie;
         }
         else
         {
