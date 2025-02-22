@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03512511, g: 0.06513835, b: 0.2035363, a: 1}
+  m_IndirectSpecularColor: {r: 0.035132144, g: 0.06515456, b: 0.20356348, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -338,7 +338,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &115102779
 MonoBehaviour:
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1939,6 +1939,78 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 136
   detectDistance: 1.5
+--- !u!1 &1090884959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1090884960}
+  - component: {fileID: 1090884962}
+  - component: {fileID: 1090884961}
+  m_Layer: 5
+  m_Name: RawImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1090884960
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090884959}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2102712567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1090884961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090884959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8600000, guid: bc3dc6a07a5a93d4baff5a1107f01787, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1090884962
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090884959}
+  m_CullTransparentMesh: 1
 --- !u!1 &1137413289
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,12 +2120,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8ba3fbdd22a1d48b0fad44715250bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyPoints:
-  - {x: -30.42, y: 1, z: -8.02}
-  - {x: -37.78, y: 1, z: -16.02}
-  - {x: -22.42, y: 1, z: -16.02}
-  - {x: -37.78, y: 1, z: -8.31}
-  - {x: -22.05, y: 1, z: -8.31}
+  keyPointLists:
+  - ListName: Left Patrol Path
+    keyPointList:
+    - {x: -30.42, y: 1, z: -8.02}
+    - {x: -37.37, y: 1, z: -8.02}
+    - {x: -37.37, y: 1, z: -17.62}
+    - {x: -30.42, y: 1, z: -8.02}
+  - ListName: Right Patrol Path
+    keyPointList:
+    - {x: -30.42, y: 1, z: -8.02}
+    - {x: -22.19, y: 1, z: -8.02}
+    - {x: -22.19, y: 1, z: -17.62}
+    - {x: -30.42, y: 1, z: -8.02}
+  - ListName: Weird Patrol Path
+    keyPointList:
+    - {x: -30.42, y: 1, z: -8.02}
+    - {x: -22.65, y: 1, z: -9.02}
+    - {x: -38.72, y: 1, z: -7.53}
+    - {x: -30.42, y: 1, z: -8.02}
+  randomPaths: 1
 --- !u!1 &1327731259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2686,7 +2772,7 @@ Transform:
   m_GameObject: {fileID: 1563391290}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.05, y: 1, z: -8.31}
+  m_LocalPosition: {x: -37.21, y: 1, z: -7.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3280,7 +3366,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8600000, guid: bc3dc6a07a5a93d4baff5a1107f01787, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -3871,6 +3957,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1090884960}
   - {fileID: 115102778}
   m_Father: {fileID: 1630491233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
