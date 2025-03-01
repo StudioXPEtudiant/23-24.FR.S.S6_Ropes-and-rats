@@ -333,10 +333,7 @@ GameObject:
   - component: {fileID: 3949460271068966157}
   - component: {fileID: 8414684177206035214}
   - component: {fileID: 6025019280166541670}
-  - component: {fileID: 4937129036541227038}
-  - component: {fileID: 6571168474510358272}
   - component: {fileID: 2282187371102840889}
-  - component: {fileID: 6755801092909946499}
   m_Layer: 3
   m_Name: Debug pieces
   m_TagString: Pieces
@@ -492,49 +489,6 @@ MonoBehaviour:
   eventOnMainActRelease:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4937129036541227038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7111154511217080477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efc213f406750a348b183d5298c8207f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventOnMainActPresse:
-    m_PersistentCalls:
-      m_Calls: []
-  eventOnMainActHold:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6755801092909946499}
-        m_TargetAssemblyTypeName: BoardGamePickUp, Assembly-CSharp
-        m_MethodName: OnHold
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6571168474510358272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7111154511217080477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52bb2e727d35e9498fd989bcfe3e629, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  extraYPosition: 0.2
 --- !u!114 &2282187371102840889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,22 +510,3 @@ MonoBehaviour:
     x: 0.5
     y: 1.5
   onThrowDoRotate: 1
---- !u!114 &6755801092909946499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7111154511217080477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0f06e7b1ea9443438f9d44b42f5d630, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  extraYPosition: 0.1
-  objectSpeed: 2
-  pickUpDistence: 0.5
-  throwForce: 0.1
-  maxthrowForce: 10
-  rotationMultiplier: 1
-  onThrowDoRotate: 0

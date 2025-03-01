@@ -5303,9 +5303,7 @@ GameObject:
   - component: {fileID: 8477135016698987735}
   - component: {fileID: 6493368624125821417}
   - component: {fileID: 8066805495949591822}
-  - component: {fileID: 7508580166819508615}
   - component: {fileID: 6751940183992257951}
-  - component: {fileID: 423640535787996704}
   - component: {fileID: 6936857154792645878}
   m_Layer: 3
   m_Name: Dice_d6
@@ -5476,36 +5474,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7508580166819508615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7121555570016283598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efc213f406750a348b183d5298c8207f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventOnMainActPresse:
-    m_PersistentCalls:
-      m_Calls: []
-  eventOnMainActHold:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 423640535787996704}
-        m_TargetAssemblyTypeName: BoardGamePickUp, Assembly-CSharp
-        m_MethodName: OnHold
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &6751940183992257951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5526,25 +5494,6 @@ MonoBehaviour:
   minMaxHandDistanceFromPlayer:
     x: 0.5
     y: 1.5
-  onThrowDoRotate: 1
---- !u!114 &423640535787996704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7121555570016283598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0f06e7b1ea9443438f9d44b42f5d630, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  extraYPosition: 0.15
-  objectSpeed: 2
-  pickUpDistence: 0.5
-  throwForce: 0.1
-  maxthrowForce: 10
-  rotationMultiplier: 1
   onThrowDoRotate: 1
 --- !u!114 &6936857154792645878
 MonoBehaviour:
