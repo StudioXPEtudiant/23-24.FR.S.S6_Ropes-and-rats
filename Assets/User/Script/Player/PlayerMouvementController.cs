@@ -25,12 +25,16 @@ public class PlayerMouvementController : MonoBehaviour
     [Range(0,0.9f)]
     [SerializeField] private float NoInertie = 0.025f;
 
+    [SerializeField] private int OutOfBoundDistanceY = 15;
+
     private Vector3 _movementX;
     private Vector3 _movementZ;
     private float _cameraY;
     private float _playerHeightdifference;
     private CharacterController _characterController;
     private PlayerInputController _playerInput;
+
+    private Vector3 _initialePosition;
 
     // Start is called before the first frame update
     void Awake()
@@ -39,6 +43,8 @@ public class PlayerMouvementController : MonoBehaviour
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInputController>();
         _playerHeightdifference = (playerHeight - playerCrouchHeight) / 2;
         _playerInput.noInertie = NoInertie;
+
+        _initialePosition = transform.position;
     }
 
     // Update is called once per frame
@@ -71,6 +77,12 @@ public class PlayerMouvementController : MonoBehaviour
         {
             _characterController.height = playerHeight;
             _characterController.Move(new Vector3(0,_playerHeightdifference,0));
+        }
+
+        if (transform.position.y < _initialePosition.y -OutOfBoundDistanceY)
+        {
+            _characterController.Move(Vector3.zero);
+            transform.position = _initialePosition;
         }
     }
     
