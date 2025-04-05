@@ -228,23 +228,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7247823655967640653, guid: 26a57361b8b66874e993cf5f716b28a0,
         type: 3}
-      propertyPath: m_Intensity
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7247823655967640653, guid: 26a57361b8b66874e993cf5f716b28a0,
-        type: 3}
       propertyPath: m_LuxAtDistance
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7311499971520383110, guid: 26a57361b8b66874e993cf5f716b28a0,
         type: 3}
-      propertyPath: m_Range
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 7311499971520383110, guid: 26a57361b8b66874e993cf5f716b28a0,
-        type: 3}
       propertyPath: m_Intensity
-      value: 1000
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7311499971520383110, guid: 26a57361b8b66874e993cf5f716b28a0,
         type: 3}
