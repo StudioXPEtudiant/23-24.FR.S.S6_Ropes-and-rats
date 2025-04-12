@@ -54,7 +54,7 @@ public class PlayerMouvementController : MonoBehaviour
         _movementZ = transform.forward * _playerInput.GetUpDownAxis();
 
         Vector3 move = (_movementX + _movementZ);
-        _characterController.Move(move * (playerSpeed * Time.deltaTime));
+        _characterController.Move(move * (playerSpeed * 0.01f));
         _characterController.Move(new Vector3(0,-0.005f,0));
 
 
