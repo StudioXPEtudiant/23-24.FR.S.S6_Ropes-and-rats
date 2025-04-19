@@ -69,6 +69,7 @@ public class Guardian_Raycast : MonoBehaviour
                 if (DetectableObjects.Contains(raycastHit.transform.gameObject))
                 {
                     Debug.DrawLine(transform.position,raycastHit.point,Color.green,TimeBetwenCheck);
+                    
                     numberOfDetectedPoint += 1;
                 }
                 else
